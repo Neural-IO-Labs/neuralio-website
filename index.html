@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Neural:IO Labs - High-performance GPU-accelerated checkpointing engine for AI/ML workloads. 7.2 GB/s throughput with 4.3x deduplication on H100/Blackwell clusters.">
+    <meta name="keywords"
+        content="AI infrastructure, GPU checkpointing, H100, Blackwell, machine learning, deep learning, PyTorch, checkpoint deduplication">
+    <meta name="author" content="Neural:IO Labs">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Neural:IO Labs | The Storage Standard for AI">
+    <meta property="og:description"
+        content="GPU-accelerated checkpointing with 7.2 GB/s throughput and 4.3x deduplication. Built for H100 & Blackwell clusters.">
+    <meta property="og:image" content="assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Neural:IO Labs | The Storage Standard for AI">
+    <meta name="twitter:description"
+        content="GPU-accelerated checkpointing with 7.2 GB/s throughput and 4.3x deduplication.">
+
+    <title>Neural:IO Labs | The Storage Standard for AI</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <div class="nav-logo-glow"></div>
+                    <img src="assets/logo.png" alt="Neural:IO Labs Logo">
+                </div>
+                <span class="nav-logo-text">NEURAL<span>:IO</span> LABS</span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="#impact">Benchmarks</a>
+                <a href="#technology">Architecture</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <button class="nav-cta" onclick="openContactModal()" data-track="nav-contact">
+                Request Pilot
+            </button>
+
+            <button class="nav-mobile-toggle" id="navMobileToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            BLACKWELL (SM100) NATIVE SUPPORT
+        </div>
+
+        <h1 class="hero-title">
+            Future-Proof I/O for<br>
+            <span class="text-gradient glow-text">High Performance Compute.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            The checkpointing engine for H100 & Blackwell clusters.
+            <strong>Fat Binary Encrypted</strong> distribution with
+            <strong>7.2 GB/s verified throughput</strong> and <strong>4.3x deduplication</strong>.
+        </p>
+
+        <div class="hero-actions">
+            <button class="btn-primary" onclick="openContactModal()" data-track="hero-cta">
+                Request Pilot Access
+            </button>
+            <button class="btn-secondary"
+                onclick="document.getElementById('technology').scrollIntoView({behavior: 'smooth'})">
+                View Architecture
+            </button>
+        </div>
+
+        <!-- Metrics Grid -->
+        <section id="impact" class="metrics">
+            <!-- Metric 1: Throughput -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">Peak Throughput</span>
+                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div class="metric-value">7.2 <span>GB/s</span></div>
+                <p class="metric-description">
+                    Verified on single NVIDIA A40 node with Buffered I/O. Scales linearly with NVMe RAID arrays.
+                </p>
+            </div>
+
+            <!-- Metric 2: Deduplication -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">Real-World Dedup</span>
+                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="metric-value">4.31<span>x</span></div>
+                <p class="metric-description">
+                    Per-checkpoint compression on LoRA fine-tuning workloads (405MB model). Reduces storage TCO by 77%.
+                </p>
+            </div>
+
+            <!-- Metric 3: GPU Compatibility -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <span class="metric-label">GPU Compatibility</span>
+                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        style="color: #22c55e;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="metric-value" style="font-size: 1.75rem; margin-top: 0.5rem;">SM80 → SM100</div>
+                <p class="metric-description">
+                    Fat Binary architecture: A100, RTX 30/40/50-series, H100, H200, L4/L40, and B200. Forward compatible
+                    via PTX.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology">
+        <div class="technology-container">
+            <div class="technology-header">
+                <div>
+                    <h2 class="technology-title">Secure Technical Architecture</h2>
+                    <p class="technology-subtitle">Fat Binary Encryption ensures zero IP leakage while delivering native
+                        GPU performance.</p>
+                </div>
+                <div class="technology-log">
+                    <span class="technology-log-dot"></span>
+                    SESSION: 7f3a9e2b
+                </div>
+            </div>
+
+            <!-- Terminal Demo -->
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                    </div>
+                    <span class="terminal-title">admin@h100-cluster</span>
+                </div>
+
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">user@lab:~$</span>
+                        <span class="terminal-command">pip install neuralio-2.2.4-cp311-linux.whl</span>
+                    </div>
+
+                    <div class="terminal-line">
+                        <span class="terminal-label blue">[Neural:IO]</span>
+                        <span class="terminal-value">Validating License... <span class="green">OK
+                                (Enterprise)</span></span>
+                    </div>
+
+                    <div class="terminal-line">
+                        <span class="terminal-label blue">[Kernel]</span>
+                        <span class="terminal-value">Architecture: <span class="white">FatBinary (SM80, SM86, SM89,
+                                SM90, SM100)</span></span>
+                    </div>
+
+                    <div class="terminal-line" style="margin-top: 1rem;">
+                        <span class="terminal-label gray">[Save]</span>
+                        <span class="terminal-value">File: <span class="cyan">realworld_checkpoint.pt</span> (405
+                            MB)</span>
+                    </div>
+
+                    <div class="terminal-progress">
+                        <div class="terminal-progress-bar"></div>
+                    </div>
+
+                    <div class="terminal-line">
+                        <span class="terminal-label green">[Success]</span>
+                        <span class="terminal-value">Saved in <span class="white">379ms</span> @ 1.07 GB/s</span>
+                    </div>
+
+                    <div class="terminal-line">
+                        <span class="terminal-label gray">[Dedup]</span>
+                        <span class="terminal-value">Ratio: <span class="bold">4.31x</span> | Storage Saved: <span
+                                class="green">311 MB</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="pricing-header">
+            <h2 class="pricing-title">Join the Private Pilot</h2>
+            <p class="pricing-subtitle">Currently accepting partners for paid pilot programs on H100/Blackwell
+                infrastructure.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Developer Sandbox -->
+            <div class="pricing-card">
+                <span class="pricing-badge">Waitlist</span>
+                <h3 class="pricing-name">Developer Sandbox</h3>
+                <p class="pricing-description">For PoCs & Architecture Validation</p>
+                <div class="pricing-price">$0</div>
+                <ul class="pricing-features">
+                    <li>Single Node Limit (8 GPUs)</li>
+                    <li>Non-Commercial License</li>
+                    <li>Fat Binary Security</li>
+                    <li>Community Support</li>
+                </ul>
+                <button class="pricing-btn outline" onclick="openContactModal()" data-track="pricing-sandbox">
+                    Join Waitlist
+                </button>
+            </div>
+
+            <!-- Enterprise Pilot -->
+            <div class="pricing-card featured">
+                <span class="pricing-badge">Pilot Program</span>
+                <h3 class="pricing-name">Enterprise Pilot</h3>
+                <p class="pricing-description">For H100/Blackwell Clusters</p>
+                <div class="pricing-price">Gain <span>share model</span></div>
+                <p class="pricing-note">Direct access to labs engineering. Custom kernel tuning for your specific
+                    topology.</p>
+                <ul class="pricing-features">
+                    <li>Unlimited Multi-Node Scaling</li>
+                    <li>Custom Kernel Tuning (SM90/100)</li>
+                    <li>24h Priority Support</li>
+                    <li>Dedicated Slack Channel</li>
+                </ul>
+                <button class="pricing-btn primary" onclick="openContactModal()" data-track="pricing-enterprise">
+                    Contact Labs
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="padding: 4rem 1.5rem; text-align: center;">
+        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Ready to Accelerate?</h2>
+        <p style="color: #9ca3af; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Get in touch for pilot access, partnership inquiries, or to schedule a technical demo.
+        </p>
+        <button class="btn-primary" onclick="openContactModal()" data-track="footer-cta" style="width: auto;">
+            Contact Labs
+        </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div>
+                <div class="footer-brand">NEURAL<span>:IO</span> LABS</div>
+                <div class="footer-info">
+                    &copy; 2026 Neural:IO Labs Oy<br>
+                    Helsinki, Finland
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <button onclick="openContactModal()">Contact</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-backdrop" onclick="closeContactModal()"></div>
+        <div class="modal-content">
+            <h3 class="modal-title">Contact Labs</h3>
+            <p class="modal-subtitle">Direct line for pilot access & partnership inquiries.</p>
+
+            <div class="modal-email" onclick="copyEmail()">
+                <code id="contactEmail">tuomas.lehto@saunalahti.fi</code>
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+            </div>
+
+            <div class="modal-actions">
+                <a href="mailto:tuomas.lehto@saunalahti.fi" class="modal-btn-primary">
+                    Open Mail App
+                </a>
+                <button onclick="closeContactModal()" class="modal-btn-secondary">
+                    Close
+                </button>
+            </div>
+
+            <div id="copyFeedback" class="modal-feedback">Copied to clipboard!</div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
