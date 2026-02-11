@@ -116,8 +116,8 @@
                 </div>
                 <div class="metric-value">16+ <span>GB/s</span></div>
                 <p class="metric-description">
-                    Effective write speed for fine-tuning workloads. Zero-overhead async checkpointing powered by
-                    pinned memory buffers.
+                    Effective write speed for fine-tuning workloads. Near-zero I/O overhead for incremental
+                    checkpointing across all supported GPUs.
                 </p>
             </div>
 
@@ -149,9 +149,10 @@
                 </div>
                 <div class="metric-value" style="font-size: 1.5rem; margin-top: 0.5rem;">NVIDIA + AMD</div>
                 <p class="metric-description">
-                    <strong>NVIDIA:</strong> A100 → B200 (SM80–SM100+PTX). <strong>AMD:</strong> MI300X (gfx942, ROCm
-                    6.x).
-                    Windows IOCP & Linux io_uring backends.
+                    <strong>NVIDIA:</strong> Native support for Turing, Ampere, Hopper &amp; Blackwell.
+                    Tested on RTX 2070S, A60, RTX 3080, RTX 5080, H100, B200.
+                    <strong>AMD:</strong> MI300X (gfx942, ROCm 6.x).
+                    Precompiled fat binaries (SM75→SM100+PTX).
                 </p>
             </div>
         </section>
