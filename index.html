@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Neural:IO Labs - High-performance GPU-accelerated checkpointing engine for AI/ML workloads. 7.2 GB/s throughput with 4.3x deduplication on H100/Blackwell clusters.">
+        content="Neural:IO — GPU-accelerated checkpointing for AI training. 16+ GB/s effective throughput with 10x deduplication. Native support for NVIDIA (A100–B200), AMD MI300X, Windows & Linux.">
     <meta name="keywords"
-        content="AI infrastructure, GPU checkpointing, H100, Blackwell, machine learning, deep learning, PyTorch, checkpoint deduplication">
+        content="AI infrastructure, GPU checkpointing, H100, Blackwell, MI300X, ROCm, AMD, machine learning, deep learning, PyTorch, checkpoint deduplication, Windows GPU">
     <meta name="author" content="Neural:IO Labs">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Neural:IO Labs | The Storage Standard for AI">
+    <meta property="og:title" content="Neural:IO Labs | The I/O Engine for AI">
     <meta property="og:description"
-        content="GPU-accelerated checkpointing with 7.2 GB/s throughput and 4.3x deduplication. Built for H100 & Blackwell clusters.">
+        content="GPU-accelerated checkpointing with 16+ GB/s effective throughput and 10x deduplication. NVIDIA & AMD native. Windows & Linux.">
     <meta property="og:image" content="assets/og-image.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Neural:IO Labs | The Storage Standard for AI">
+    <meta name="twitter:title" content="Neural:IO Labs | The I/O Engine for AI">
     <meta name="twitter:description"
-        content="GPU-accelerated checkpointing with 7.2 GB/s throughput and 4.3x deduplication.">
+        content="16+ GB/s effective checkpointing. 10x deduplication. NVIDIA & AMD native. Zero training overhead.">
 
-    <title>Neural:IO Labs | The Storage Standard for AI</title>
+    <title>Neural:IO Labs | The I/O Engine for AI</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/logo.png">
@@ -79,18 +79,18 @@
     <main class="hero">
         <div class="hero-badge">
             <span class="hero-badge-dot"></span>
-            BLACKWELL (SM100) NATIVE SUPPORT
+            NVIDIA & AMD — NATIVE DUAL-PLATFORM SUPPORT
         </div>
 
         <h1 class="hero-title">
-            Future-Proof I/O for<br>
-            <span class="text-gradient glow-text">High Performance Compute.</span>
+            Zero-Overhead Checkpointing for<br>
+            <span class="text-gradient glow-text">Any GPU at Any Scale.</span>
         </h1>
 
         <p class="hero-subtitle">
-            The checkpointing engine for H100 & Blackwell clusters.
-            <strong>Fat Binary Encrypted</strong> distribution with
-            <strong>7.2 GB/s verified throughput</strong> and <strong>4.3x deduplication</strong>.
+            The async I/O engine that makes checkpointing free. <strong>16+ GB/s effective throughput</strong>
+            with <strong>10x deduplication</strong> on NVIDIA H100/B200 and AMD MI300X.
+            Compiled native binaries for Linux & Windows.
         </p>
 
         <div class="hero-actions">
@@ -137,21 +137,21 @@
                 </p>
             </div>
 
-            <!-- Metric 3: GPU Compatibility -->
+            <!-- Metric 3: Platform Support -->
             <div class="metric-card">
                 <div class="metric-header">
-                    <span class="metric-label">GPU Compatibility</span>
+                    <span class="metric-label">Dual-Platform Native</span>
                     <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         style="color: #22c55e;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="metric-value" style="font-size: 1.75rem; margin-top: 0.5rem;">SM80 → SM100</div>
+                <div class="metric-value" style="font-size: 1.5rem; margin-top: 0.5rem;">NVIDIA + AMD</div>
                 <p class="metric-description">
-                    Fat Binary architecture: A100, RTX 30/40/50-series, H100, H200, L4/L40, and B200. Forward
-                    compatible
-                    via PTX.
+                    <strong>NVIDIA:</strong> A100 → B200 (SM80–SM100+PTX). <strong>AMD:</strong> MI300X (gfx942, ROCm
+                    6.x).
+                    Windows IOCP & Linux io_uring backends.
                 </p>
             </div>
         </section>
@@ -162,9 +162,9 @@
         <div class="technology-container">
             <div class="technology-header">
                 <div>
-                    <h2 class="technology-title">Secure Technical Architecture</h2>
-                    <p class="technology-subtitle">Fat Binary Encryption ensures zero IP leakage while delivering native
-                        GPU performance.</p>
+                    <h2 class="technology-title">Compiled Native Architecture</h2>
+                    <p class="technology-subtitle">Pre-compiled fat binaries for NVIDIA CUDA and AMD ROCm. No source
+                        code distribution — native GPU performance with full IP protection.</p>
                 </div>
                 <div class="technology-log">
                     <span class="technology-log-dot"></span>
@@ -180,31 +180,30 @@
                         <div class="terminal-dot yellow"></div>
                         <div class="terminal-dot green"></div>
                     </div>
-                    <span class="terminal-title">admin@h100-cluster</span>
+                    <span class="terminal-title">admin@gpu-cluster</span>
                 </div>
 
                 <div class="terminal-body">
                     <div class="terminal-line">
                         <span class="terminal-prompt">user@lab:~$</span>
-                        <span class="terminal-command">pip install neuralio-2.2.4-cp311-linux.whl</span>
+                        <span class="terminal-command">pip install neuralio-2.2.5-cp312-linux_x86_64.whl</span>
                     </div>
 
                     <div class="terminal-line">
                         <span class="terminal-label blue">[Neural:IO]</span>
-                        <span class="terminal-value">Validating License... <span class="green">OK
-                                (Enterprise)</span></span>
+                        <span class="terminal-value">License: <span class="green">ENTERPRISE</span> | Platform: <span
+                                class="white">CUDA + ROCm</span></span>
                     </div>
 
                     <div class="terminal-line">
                         <span class="terminal-label blue">[Kernel]</span>
-                        <span class="terminal-value">Architecture: <span class="white">FatBinary (SM80, SM86, SM89,
-                                SM90, SM100)</span></span>
+                        <span class="terminal-value">NVIDIA FatBinary <span class="white">(SM80→SM100+PTX)</span> | AMD
+                            <span class="white">(gfx942)</span></span>
                     </div>
 
                     <div class="terminal-line" style="margin-top: 1rem;">
                         <span class="terminal-label gray">[Save]</span>
-                        <span class="terminal-value">File: <span class="cyan">realworld_checkpoint.pt</span> (405
-                            MB)</span>
+                        <span class="terminal-value">File: <span class="cyan">ckpt_step_4200.pt</span> (4.0 GB)</span>
                     </div>
 
                     <div class="terminal-progress">
@@ -212,14 +211,15 @@
                     </div>
 
                     <div class="terminal-line">
-                        <span class="terminal-label green">[Success]</span>
-                        <span class="terminal-value">Saved in <span class="white">379ms</span> @ 1.07 GB/s</span>
+                        <span class="terminal-label green">[MARKET SUMMARY]</span>
+                        <span class="terminal-value">Unique Data: <span class="white">0.40 GB</span> | Dedupe: <span
+                                class="bold">10.00x</span> | Effective: <span class="green">16.2 GB/s</span></span>
                     </div>
 
                     <div class="terminal-line">
-                        <span class="terminal-label gray">[Dedup]</span>
-                        <span class="terminal-value">Ratio: <span class="bold">4.31x</span> | Storage Saved: <span
-                                class="green">311 MB</span></span>
+                        <span class="terminal-label green">[✓]</span>
+                        <span class="terminal-value">Incremental checkpoint — <span class="green">90% I/O
+                                eliminated</span></span>
                     </div>
                 </div>
             </div>
@@ -230,8 +230,8 @@
     <section id="pricing" class="pricing">
         <div class="pricing-header">
             <h2 class="pricing-title">Join the Private Pilot</h2>
-            <p class="pricing-subtitle">Currently accepting partners for paid pilot programs on H100/Blackwell
-                infrastructure.</p>
+            <p class="pricing-subtitle">Currently accepting partners for pilot programs on NVIDIA H100/B200 and AMD
+                MI300X infrastructure. Windows & Linux.</p>
         </div>
 
         <div class="pricing-grid">
@@ -256,15 +256,15 @@
             <div class="pricing-card featured">
                 <span class="pricing-badge">Pilot Program</span>
                 <h3 class="pricing-name">Enterprise Pilot</h3>
-                <p class="pricing-description">For H100/Blackwell Clusters</p>
+                <p class="pricing-description">For H100/B200 & MI300X Clusters</p>
                 <div class="pricing-price">Gain <span>share model</span></div>
-                <p class="pricing-note">Direct access to labs engineering. Custom kernel tuning for your specific
-                    topology.</p>
+                <p class="pricing-note">Direct access to labs engineering. Custom kernel tuning for your specific GPU
+                    topology and storage stack.</p>
                 <ul class="pricing-features">
                     <li>Unlimited Multi-Node Scaling</li>
-                    <li>Custom Kernel Tuning (SM90/100)</li>
-                    <li>24h Priority Support</li>
-                    <li>Dedicated Slack Channel</li>
+                    <li>NVIDIA + AMD Kernel Tuning</li>
+                    <li>Windows & Linux Binaries</li>
+                    <li>24h Priority Support + Slack</li>
                 </ul>
                 <button class="pricing-btn primary" onclick="openContactModal()" data-track="pricing-enterprise">
                     Contact Labs
