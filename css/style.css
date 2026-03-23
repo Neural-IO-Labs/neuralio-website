@@ -664,7 +664,7 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     transition: background var(--transition-normal);
 }
 
