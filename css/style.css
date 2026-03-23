@@ -199,6 +199,26 @@ body {
     color: var(--color-text);
 }
 
+.nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 2rem;
+    border-bottom: 1px solid var(--color-border);
+    animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .nav-cta {
     padding: 0.5rem 1.25rem;
     font-size: 0.875rem;
@@ -520,10 +540,11 @@ body {
 }
 
 .terminal-body {
-    padding: 2rem;
+    padding: 1.5rem;
     font-family: var(--font-mono);
-    font-size: 0.875rem;
-    line-height: 1.8;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    overflow-x: auto;
 }
 
 .terminal-line {
@@ -973,11 +994,23 @@ body {
     .btn-secondary {
         width: auto;
     }
+
+    .terminal-body {
+        padding: 2rem;
+        font-size: 0.875rem;
+        line-height: 1.8;
+    }
 }
 
 @media (min-width: 768px) {
     .nav-links {
         display: flex;
+        position: static;
+        flex-direction: row;
+        background: transparent;
+        padding: 0;
+        border: none;
+        animation: none;
     }
 
     .nav-mobile-toggle {
