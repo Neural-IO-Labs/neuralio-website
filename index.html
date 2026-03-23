@@ -227,6 +227,17 @@
         </div>
     </section>
 
+    <!-- Dashboard Section -->
+    <section id="dashboard" style="padding: 4rem 1.5rem; text-align: center;">
+        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Analytics Dashboard</h2>
+        <p style="color: #9ca3af; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Monitor effective throughput, deduplication ratios, and cluster performance in real-time.
+        </p>
+        <div class="dashboard-screenshot-placeholder" style="max-width: 1000px; height: 500px; border: 2px dashed var(--color-border); border-radius: 1rem; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); background: rgba(255, 255, 255, 0.02);">
+            [Dashboard Screenshot Placeholder]
+        </div>
+    </section>
+
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="pricing-header">
@@ -236,10 +247,10 @@
         </div>
 
         <div class="pricing-grid">
-            <!-- Developer Sandbox -->
+            <!-- EDU Version -->
             <div class="pricing-card">
                 <span class="pricing-badge">Waitlist</span>
-                <h3 class="pricing-name">Developer Sandbox</h3>
+                <h3 class="pricing-name">EDU Version</h3>
                 <p class="pricing-description">For PoCs & Architecture Validation</p>
                 <div class="pricing-price">$0</div>
                 <ul class="pricing-features">
@@ -258,7 +269,7 @@
                 <span class="pricing-badge">Pilot Program</span>
                 <h3 class="pricing-name">Enterprise Pilot</h3>
                 <p class="pricing-description">For H100/B200 & MI300X Clusters</p>
-                <div class="pricing-price">Gain <span>share model</span></div>
+                <div class="pricing-price">Per node/month <span>(Pilot is Free)</span></div>
                 <p class="pricing-note">Direct access to labs engineering. Custom kernel tuning for your specific GPU
                     topology and storage stack.</p>
                 <ul class="pricing-features">
@@ -291,7 +302,7 @@
             <div>
                 <div class="footer-brand">NEURAL<span>:IO</span> LABS</div>
                 <div class="footer-info">
-                    &copy; 2026 Neural:IO Labs Oy<br>
+                    &copy; 2026 Neural:IO Labs<br>
                     Helsinki, Finland
                 </div>
             </div>
@@ -311,7 +322,7 @@
             <p class="modal-subtitle">Direct line for pilot access & partnership inquiries.</p>
 
             <div class="modal-email" onclick="copyEmail()">
-                <code id="contactEmail">tuomas.lehto@saunalahti.fi</code>
+                <code id="contactEmail">tuomas@neuralio-labs.com</code>
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -319,7 +330,7 @@
             </div>
 
             <div class="modal-actions">
-                <a href="mailto:tuomas.lehto@saunalahti.fi" class="modal-btn-primary">
+                <a href="mailto:tuomas@neuralio-labs.com" class="modal-btn-primary">
                     Open Mail App
                 </a>
                 <button onclick="closeContactModal()" class="modal-btn-secondary">

@@ -87,4 +87,4 @@ Edit CSS variables in `css/style.css`:
 
 ## License
 
-© 2026 Neural:IO Labs Oy. All rights reserved.
+© 2026 Neural:IO Labs. All rights reserved.
