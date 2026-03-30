@@ -130,30 +130,40 @@
                             d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="metric-value">10x <span>Ratio</span></div>
+                <div class="metric-value">10x+ <span>Ratio</span></div>
                 <p class="metric-description">
-                    Automatic block-level deduplication for LoRA, MoE, and optimizer states. Reduces storage TCO by
-                    90%.
+                    Up to 10x+ deduplication on LoRA finetuning workloads, validated on LLaMA 8B. <br><br>
+                    <strong>53%+ storage reduction on PEFT/LoRA validated</strong> as a baseline. Automatic block-level reduction for optimizer states.
                 </p>
             </div>
 
             <!-- Metric 3: Platform Support -->
-            <div class="metric-card">
+            <div class="metric-card" style="grid-column: 1 / -1;">
                 <div class="metric-header">
-                    <span class="metric-label">Dual-Platform Native</span>
+                    <span class="metric-label">Enterprise Ready & Hardware Native</span>
                     <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         style="color: #22c55e;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="metric-value" style="font-size: 1.5rem; margin-top: 0.5rem;">NVIDIA + AMD</div>
-                <p class="metric-description">
-                    <strong>NVIDIA:</strong> Native support for Turing, Ampere, Hopper &amp; Blackwell.
-                    Tested on RTX 2070S, A60, RTX 3080, RTX 5080, H100, B200.
-                    <strong>AMD:</strong> MI300X (gfx942, ROCm 6.x).
-                    Precompiled fat binaries (SM75→SM100+PTX).
-                </p>
+                <div class="metric-value" style="font-size: 1.5rem; margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <span>NVIDIA + AMD</span>
+                    <span style="color: #6b7280; font-size: 1rem; align-self: flex-end; padding-bottom: 0.2rem;">Python 3.10–3.12 Support</span>
+                </div>
+                <div class="metric-description" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <strong>NVIDIA:</strong> Native support for Hopper, Blackwell, Ampere, Turing.<br>
+                        <strong>AMD:</strong> Native ROCm 6.x for MI300X (gfx942) and MI250X (gfx90a).
+                    </div>
+                    <div>
+                        <strong>Distributed:</strong> DDP and FSDP natively supported. Slurm compatible.<br>
+                        <strong>Backends:</strong> Native io_uring (Linux) and IOCP (Windows). Fully offline operation for enterprise.
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; font-size: 0.8rem; color: #6b7280;">
+                    <em>Note: Native DeepSpeed and HF Accelerate framework interception is currently in development (direct torch.save replacement required).</em>
+                </div>
             </div>
         </section>
     </main>
@@ -228,13 +238,17 @@
     </section>
 
     <!-- Dashboard Section -->
-    <section id="dashboard" style="padding: 4rem 1.5rem; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Analytics Dashboard</h2>
+    <section id="dashboard" style="padding: 4rem 1.5rem; text-align: center; max-width: 1200px; margin: 0 auto;">
+        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Command Center Dashboard</h2>
         <p style="color: #9ca3af; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-            Monitor effective throughput, deduplication ratios, and cluster performance in real-time.
+            Monitor effective throughput, verifiable deduplication ratios, and track literal dollar savings with the integrated real-time telemetry dashboard.
         </p>
-        <div class="dashboard-screenshot-placeholder" style="max-width: 1000px; height: clamp(250px, 50vw, 500px); border: 2px dashed var(--color-border); border-radius: 1rem; margin: 0 auto; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); background: rgba(255, 255, 255, 0.02);">
-            [Dashboard Screenshot Placeholder]
+        
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
+            <img src="assets/neuralio_dashboard.png" alt="Neural:IO Live Monitor Dashboard" style="width: 100%; max-width: 1000px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+            <div style="display: flex; gap: 2rem; justify-content: center; width: 100%; max-width: 1000px;">
+                <img src="assets/neuralio_config.png" alt="Neural:IO Deep Configuration" style="width: 100%; max-width: 500px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            </div>
         </div>
     </section>
 
@@ -247,20 +261,20 @@
         </div>
 
         <div class="pricing-grid">
-            <!-- EDU Version -->
+            <!-- 24h Demo Tier -->
             <div class="pricing-card">
-                <span class="pricing-badge">Waitlist</span>
-                <h3 class="pricing-name">EDU Version</h3>
-                <p class="pricing-description">For PoCs & Architecture Validation</p>
+                <span class="pricing-badge">Evaluate</span>
+                <h3 class="pricing-name">24h Demo Tier</h3>
+                <p class="pricing-description">For rapid PoCs & Local Hardware Validation</p>
                 <div class="pricing-price">$0</div>
                 <ul class="pricing-features">
-                    <li>Single Node Limit (8 GPUs)</li>
-                    <li>Non-Commercial License</li>
-                    <li>Fat Binary Security</li>
-                    <li>Community Support</li>
+                    <li>24 Hour Token Lifespan</li>
+                    <li>Full Dashboard Telemetry</li>
+                    <li>Fat Binary Architecture</li>
+                    <li>No Support Guarantee</li>
                 </ul>
                 <button class="pricing-btn outline" onclick="openContactModal()" data-track="pricing-sandbox">
-                    Join Waitlist
+                    Request Token
                 </button>
             </div>
 
