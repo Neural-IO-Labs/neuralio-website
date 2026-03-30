@@ -38,6 +38,105 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Lightbox Styles -->
+    <style>
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-overlay.active {
+            display: flex;
+        }
+        .lightbox-img-wrap {
+            position: relative;
+            max-width: min(92vw, 1200px);
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lightbox-img-wrap img {
+            max-width: 100%;
+            max-height: 88vh;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+            object-fit: contain;
+            user-select: none;
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 1rem;
+            right: 1.2rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: 1.6rem;
+            line-height: 1;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 10001;
+        }
+        .lightbox-close:hover { background: rgba(255,255,255,0.22); }
+        .lightbox-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            font-size: 1.8rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            z-index: 10001;
+            user-select: none;
+        }
+        .lightbox-arrow:hover { background: rgba(255,255,255,0.2); }
+        .lightbox-prev { left: 0.8rem; }
+        .lightbox-next { right: 0.8rem; }
+        .lightbox-counter {
+            position: fixed;
+            bottom: 1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .gallery-img {
+            cursor: zoom-in;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .gallery-img:hover {
+            transform: scale(1.015);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5) !important;
+        }
+        @media (max-width: 600px) {
+            .lightbox-arrow { width: 2.4rem; height: 2.4rem; font-size: 1.4rem; }
+            .lightbox-prev { left: 0.3rem; }
+            .lightbox-next { right: 0.3rem; }
+        }
+    </style>
 </head>
 
 <body>
@@ -162,7 +261,7 @@
                     </div>
                 </div>
                 <div style="margin-top: 1rem; font-size: 0.8rem; color: #6b7280;">
-                    <em>Note: Native DeepSpeed and HF Accelerate framework interception is currently in development (direct torch.save replacement required).</em>
+                    <em>DeepSpeed and HF Accelerate native interception planned — <a href="#contact" style="color:#06b6d4;">contact us to prioritise.</a></em>
                 </div>
             </div>
         </section>
@@ -208,7 +307,7 @@
 
                     <div class="terminal-line">
                         <span class="terminal-label blue">[Kernel]</span>
-                        <span class="terminal-value">NVIDIA FatBinary <span class="white">(SM80→SM100+PTX)</span> | AMD
+                        <span class="terminal-value">NVIDIA FatBinary <span class="white">(SM75→SM100+PTX)</span> | AMD
                             <span class="white">(gfx942)</span></span>
                     </div>
 
@@ -245,10 +344,10 @@
         </p>
         
         <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center;">
-            <img src="assets/neuralio_dashboard.png" alt="Neural:IO Live Monitor Dashboard" style="width: 100%; max-width: 1000px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+            <img src="assets/neuralio_dashboard.png" alt="Neural:IO Live Monitor Dashboard" class="gallery-img" data-gallery="0" style="width: 100%; max-width: 1000px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
             <div style="display: flex; gap: 2rem; justify-content: center; width: 100%; max-width: 1000px; flex-wrap: wrap;">
-                <img src="assets/neuralio_audit.png" alt="Neural:IO Audit Trail" style="width: 100%; max-width: 450px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex: 1 1 400px;">
-                <img src="assets/neuralio_config.png" alt="Neural:IO Deep Configuration" style="width: 100%; max-width: 450px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex: 1 1 400px;">
+                <img src="assets/neuralio_audit.png" alt="Neural:IO Audit Trail" class="gallery-img" data-gallery="1" style="width: 100%; max-width: 450px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex: 1 1 400px;">
+                <img src="assets/neuralio_config.png" alt="Neural:IO Deep Configuration" class="gallery-img" data-gallery="2" style="width: 100%; max-width: 450px; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex: 1 1 400px;">
             </div>
         </div>
     </section>
@@ -272,7 +371,7 @@
                     <li>24 Hour Token Lifespan</li>
                     <li>Full Dashboard Telemetry</li>
                     <li>Fat Binary Architecture</li>
-                    <li>No Support Guarantee</li>
+                    <li>Best-effort support</li>
                 </ul>
                 <button class="pricing-btn outline" onclick="openContactModal()" data-track="pricing-sandbox">
                     Request Token
@@ -357,8 +456,90 @@
         </div>
     </div>
 
+    <!-- Lightbox HTML -->
+    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+        <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Previous">&#8249;</button>
+        <div class="lightbox-img-wrap">
+            <img id="lightboxImg" src="" alt="Dashboard screenshot">
+        </div>
+        <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Next">&#8250;</button>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+
+    <!-- Lightbox JS -->
+    <script>
+    (function() {
+        const images = [
+            { src: 'assets/neuralio_dashboard.png', alt: 'Neural:IO Live Monitor Dashboard' },
+            { src: 'assets/neuralio_audit.png',     alt: 'Neural:IO Audit Trail' },
+            { src: 'assets/neuralio_config.png',    alt: 'Neural:IO Configuration' }
+        ];
+
+        let current = 0;
+        const overlay   = document.getElementById('lightbox');
+        const img       = document.getElementById('lightboxImg');
+        const counter   = document.getElementById('lightboxCounter');
+        const btnClose  = document.getElementById('lightboxClose');
+        const btnPrev   = document.getElementById('lightboxPrev');
+        const btnNext   = document.getElementById('lightboxNext');
+
+        function show(idx) {
+            current = (idx + images.length) % images.length;
+            img.src = images[current].src;
+            img.alt = images[current].alt;
+            counter.textContent = (current + 1) + ' / ' + images.length;
+        }
+
+        function open(idx) {
+            show(idx);
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function close() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Wire gallery images
+        document.querySelectorAll('.gallery-img').forEach(function(el) {
+            el.addEventListener('click', function() {
+                open(parseInt(this.dataset.gallery, 10));
+            });
+        });
+
+        btnClose.addEventListener('click', close);
+        btnPrev.addEventListener('click', function() { show(current - 1); });
+        btnNext.addEventListener('click', function() { show(current + 1); });
+
+        // Click backdrop to close
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) close();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!overlay.classList.contains('active')) return;
+            if (e.key === 'ArrowLeft')  show(current - 1);
+            if (e.key === 'ArrowRight') show(current + 1);
+            if (e.key === 'Escape')     close();
+        });
+
+        // Touch swipe for mobile
+        let touchStartX = 0;
+        overlay.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        overlay.addEventListener('touchend', function(e) {
+            const dx = e.changedTouches[0].screenX - touchStartX;
+            if (Math.abs(dx) > 50) dx < 0 ? show(current + 1) : show(current - 1);
+        }, { passive: true });
+    })();
+    </script>
 </body>
 
 </html>
