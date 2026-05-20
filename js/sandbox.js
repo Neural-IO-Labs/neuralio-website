@@ -216,14 +216,17 @@
         animateSVGPackets();
 
         // 1. Calculate Deduplication metrics
-        // First step writes baseline. Subsequent steps are highly deduplicated
+        // Assume checkpoints are saved every 2 hours of training.
+        // In a 4-hour step, we have 2 checkpoint save events.
+        const checkpointsPerStep = 2;
         const dedupRatio = currentStep === 1 ? 1.0 : (9.0 + Math.random() * 2.8); // 9x - 11.8x deduplication
         const writtenGB = modelSize / dedupRatio;
         const avoidedGB = modelSize - writtenGB;
 
-        totalLogicalGB += modelSize * gpuCount;
-        totalActualGB += writtenGB * gpuCount;
-        totalEgressSavedGB += avoidedGB * gpuCount;
+        // Multiply by checkpoints per step and cluster size
+        totalLogicalGB += modelSize * gpuCount * checkpointsPerStep;
+        totalActualGB += writtenGB * gpuCount * checkpointsPerStep;
+        totalEgressSavedGB += avoidedGB * gpuCount * checkpointsPerStep;
 
         // 2. Telemetry and I/O speed details (realistic fluctuations)
         const nioBaseSpeed = hw.nioSpeed;
@@ -231,9 +234,20 @@
         const currentBaseSpeed = hw.baseSpeed * (0.93 + Math.random() * 0.1); 
 
         // 3. Compute time calculation
-        const standardTimeSec = (modelSize / currentBaseSpeed) * gpuCount;
-        const nioTimeSec = (modelSize / currentNioSpeed) * gpuCount * 0.1; // 90% IO blocked bypassed
-        const secondsSaved = Math.max(0, standardTimeSec - nioTimeSec);
+        // Distributed sharded size per rank
+        const shardSize = modelSize / gpuCount;
+        
+        // Multi-rank network/disk contention penalty for standard saving
+        const contentionFactor = 1.0 + (gpuCount * 0.20); // 32 GPUs = 7.4x slowdown due to concurrent writes
+        const standardWriteSpeed = currentBaseSpeed / contentionFactor;
+        
+        // Standard blocking save time per checkpoint
+        const standardTimeSec = shardSize / standardWriteSpeed;
+        
+        // Neural:IO is fully asynchronous background streaming (blocked rank time < 100ms)
+        const nioTimeSec = 0.05 + (Math.random() * 0.08); 
+        
+        const secondsSaved = Math.max(0, standardTimeSec - nioTimeSec) * checkpointsPerStep;
         totalComputeSecondsSaved += secondsSaved;
 
         // 4. Financial ROI Calculation
@@ -241,10 +255,10 @@
         const computeSavingsUSD = (secondsSaved / 3600.0) * hw.rate * gpuCount;
         
         // Network Egress Saved = avoided GB * cloud egress rate per GB
-        const egressSavingsUSD = avoidedGB * gpuCount * cloud.egressRate;
+        const egressSavingsUSD = avoidedGB * gpuCount * checkpointsPerStep * cloud.egressRate;
         
         // Storage Capacity Rent Saved = avoided GB * standard storage monthly rate, scaled down to cost per hour of active training
-        const monthlyStorageSavingsUSD = avoidedGB * gpuCount * cloud.storageRate;
+        const monthlyStorageSavingsUSD = avoidedGB * gpuCount * checkpointsPerStep * cloud.storageRate;
         const hourlyStorageSavingsUSD = monthlyStorageSavingsUSD / 720.0;
         const storageSavingsUSD = hourlyStorageSavingsUSD * SIMULATED_HOURS_PER_STEP;
 
