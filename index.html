@@ -372,10 +372,20 @@
                     <label style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-text-dimmed); text-transform: uppercase;">1. Active GPU Topology</label>
                     <select id="sbGpu" style="padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--color-border); background: var(--color-bg); color: #fff; font-size: 0.9rem; font-family: var(--font-sans); outline: none; cursor: pointer; transition: border-color var(--transition-fast);">
                         <option value="rtx-5080" selected>NVIDIA RTX 5080 (Blackwell Native) — $1.20/hr</option>
-                        <option value="b200">NVIDIA B200 SXM (8x NVLink Cluster) — $4.50/hr</option>
-                        <option value="h100">NVIDIA H100 SXM5 (8x NVLink Node) — $2.50/hr</option>
-                        <option value="mi300x">AMD MI300X OAM (ROCm Native) — $2.20/hr</option>
+                        <option value="rtx-5090">NVIDIA RTX 5090 (Blackwell Flagship) — $1.90/hr</option>
                         <option value="rtx-4090">NVIDIA RTX 4090 (Ada Desktop) — $0.90/hr</option>
+                        <option value="rtx-3090">NVIDIA RTX 3090 (Ampere Desktop) — $0.40/hr</option>
+                        <option value="b200">NVIDIA B200 SXM (Blackwell Server) — $4.50/hr</option>
+                        <option value="h200">NVIDIA H200 SXM (Hopper Flagship) — $3.50/hr</option>
+                        <option value="h100">NVIDIA H100 SXM (Hopper Server) — $2.50/hr</option>
+                        <option value="a100-80gb">NVIDIA A100 (80GB Ampere) — $2.20/hr</option>
+                        <option value="a100-40gb">NVIDIA A100 (40GB Ampere) — $1.50/hr</option>
+                        <option value="l40s">NVIDIA L40S (48GB Ada Enterprise) — $1.25/hr</option>
+                        <option value="l4">NVIDIA L4 (24GB Ada PCIe) — $0.50/hr</option>
+                        <option value="a10g">NVIDIA A10G (24GB Ampere PCIe) — $1.00/hr</option>
+                        <option value="t4">NVIDIA T4 (16GB Turing PCIe) — $0.25/hr</option>
+                        <option value="mi325x">AMD MI325X OAM (ROCm Native) — $3.00/hr</option>
+                        <option value="mi300x">AMD MI300X OAM (ROCm Native) — $2.20/hr</option>
                     </select>
                 </div>
 
@@ -412,6 +422,7 @@
                         <option value="aws">Amazon AWS S3 ($0.09/GB Standard Egress)</option>
                         <option value="gcp">Google Cloud Storage ($0.12/GB Standard Egress)</option>
                         <option value="azure">Azure Blob Storage ($0.087/GB Standard Egress)</option>
+                        <option value="own">Local / On-Prem Storage (Zero Egress/Storage Costs)</option>
                     </select>
                 </div>
 
@@ -437,9 +448,18 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1rem;">
                     <div>
                         <h4 style="font-size: 1.1rem; font-weight: 600; color: #fff;">Telemetry Command Center</h4>
-                        <p style="font-size: 0.75rem; color: var(--color-text-dimmed); font-family: var(--font-mono);">SYSTEM SESSION STATUS: ACTIVE</p>
+                        <p style="font-size: 0.75rem; color: var(--color-text-dimmed); font-family: var(--font-mono); display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                            <span>SYSTEM SESSION STATUS: ACTIVE</span>
+                            <span style="display: inline-block; font-size: 0.65rem; padding: 0.1rem 0.4rem; border-radius: 4px; background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.25); color: #eab308; font-weight: 600;">Time Acceleration: 4,800x</span>
+                        </p>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                        <!-- Simulated Time Clock -->
+                        <div style="text-align: right; min-width: 120px;">
+                            <div style="font-size: 0.65rem; font-family: var(--font-mono); color: var(--color-text-dimmed); text-transform: uppercase;">Simulated Training Time</div>
+                            <div id="mSimTime" style="font-size: 1.15rem; font-family: var(--font-mono); color: #eab308; font-weight: 600;">0d 0h</div>
+                        </div>
+
                         <!-- Time Reclaimed -->
                         <div style="text-align: right;">
                             <div style="font-size: 0.65rem; font-family: var(--font-mono); color: var(--color-text-dimmed); text-transform: uppercase;">Compute Stall Reclaimed</div>

@@ -9,18 +9,29 @@
 (function () {
     // --- Hardware & Cloud Constants ---
     const HARDWARE_SPECS = {
-        'rtx-4090': { name: 'NVIDIA RTX 4090 (24GB)', rate: 0.90, baseSpeed: 0.25, nioSpeed: 8.5 },
         'rtx-5080': { name: 'NVIDIA RTX 5080 (16GB)', rate: 1.20, baseSpeed: 0.35, nioSpeed: 16.2 },
-        'h100': { name: 'NVIDIA H100 (8x NVLink)', rate: 2.50, baseSpeed: 0.45, nioSpeed: 24.5 },
-        'b200': { name: 'NVIDIA B200 (8x NVLink)', rate: 4.50, baseSpeed: 0.60, nioSpeed: 48.2 },
-        'mi300x': { name: 'AMD MI300X (192GB)', rate: 2.20, baseSpeed: 0.40, nioSpeed: 28.6 }
+        'rtx-5090': { name: 'NVIDIA RTX 5090 (32GB)', rate: 1.90, baseSpeed: 0.45, nioSpeed: 20.4 },
+        'rtx-4090': { name: 'NVIDIA RTX 4090 (24GB)', rate: 0.90, baseSpeed: 0.25, nioSpeed: 8.5 },
+        'rtx-3090': { name: 'NVIDIA RTX 3090 (24GB)', rate: 0.40, baseSpeed: 0.18, nioSpeed: 6.2 },
+        'b200': { name: 'NVIDIA B200 (192GB SXM)', rate: 4.50, baseSpeed: 0.60, nioSpeed: 48.2 },
+        'h200': { name: 'NVIDIA H200 (141GB SXM)', rate: 3.50, baseSpeed: 0.52, nioSpeed: 34.2 },
+        'h100': { name: 'NVIDIA H100 (80GB SXM5)', rate: 2.50, baseSpeed: 0.45, nioSpeed: 24.5 },
+        'a100-80gb': { name: 'NVIDIA A100 (80GB SXM)', rate: 2.20, baseSpeed: 0.38, nioSpeed: 14.8 },
+        'a100-40gb': { name: 'NVIDIA A100 (40GB PCIe)', rate: 1.50, baseSpeed: 0.30, nioSpeed: 10.5 },
+        'l40s': { name: 'NVIDIA L40S (48GB Ada)', rate: 1.25, baseSpeed: 0.30, nioSpeed: 12.5 },
+        'l4': { name: 'NVIDIA L4 (24GB Ada)', rate: 0.50, baseSpeed: 0.20, nioSpeed: 7.2 },
+        'a10g': { name: 'NVIDIA A10G (24GB PCIe)', rate: 1.00, baseSpeed: 0.15, nioSpeed: 5.4 },
+        't4': { name: 'NVIDIA T4 (16GB PCIe)', rate: 0.25, baseSpeed: 0.08, nioSpeed: 2.1 },
+        'mi325x': { name: 'AMD MI325X (256GB OAM)', rate: 3.00, baseSpeed: 0.48, nioSpeed: 38.4 },
+        'mi300x': { name: 'AMD MI300X (192GB OAM)', rate: 2.20, baseSpeed: 0.40, nioSpeed: 28.6 }
     };
 
     const CLOUD_SPECS = {
         'aws': { name: 'Amazon S3', egressRate: 0.09, storageRate: 0.023 },
         'gcp': { name: 'Google Cloud Storage', egressRate: 0.12, storageRate: 0.020 },
         'azure': { name: 'Azure Blob Storage', egressRate: 0.087, storageRate: 0.021 },
-        'r2': { name: 'Cloudflare R2', egressRate: 0.00, storageRate: 0.015 }
+        'r2': { name: 'Cloudflare R2', egressRate: 0.00, storageRate: 0.015 },
+        'own': { name: 'Local / On-Prem Storage', egressRate: 0.00, storageRate: 0.00 }
     };
 
     // --- State Variables ---
@@ -34,13 +45,16 @@
     let totalEgressSavedGB = 0;
     let totalComputeSecondsSaved = 0;
     let totalROIdollars = 0;
+    let totalSimulatedHours = 0;
+
+    const SIMULATED_HOURS_PER_STEP = 4.0; // Each 3s tick represents 4 hours of training time
 
     // --- DOM Elements ---
     let gpuSelect, modelSelect, customSizeSlider, sliderVal, clusterSelect, cloudSelect;
     let btnLaunch, btnReset;
     
     // Metrics
-    let mThroughput, mDedupe, mVram, mEgress, mNvme, mCompute, mRoi;
+    let mThroughput, mDedupe, mVram, mEgress, mNvme, mCompute, mRoi, mSimTime;
     let topologySvg, terminalLog, standardBar, nioBar;
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -65,6 +79,7 @@
         mNvme = document.getElementById('mNvme');
         mCompute = document.getElementById('mCompute');
         mRoi = document.getElementById('mRoi');
+        mSimTime = document.getElementById('mSimTime');
 
         topologySvg = document.getElementById('sbTopologySvg');
         terminalLog = document.getElementById('sbTerminalLog');
@@ -142,6 +157,7 @@
         totalEgressSavedGB = 0;
         totalComputeSecondsSaved = 0;
         totalROIdollars = 0;
+        totalSimulatedHours = 0;
 
         // Reset display
         mThroughput.textContent = '0.0';
@@ -151,6 +167,7 @@
         mNvme.textContent = '0.0';
         mCompute.textContent = '0:00';
         mRoi.textContent = '0.00';
+        if (mSimTime) mSimTime.textContent = '0d 0h';
 
         standardBar.style.width = '100%';
         nioBar.style.width = '100%';
@@ -184,6 +201,9 @@
         } else if (cloudKey === 'azure') {
             strokeColor = '#0078D4'; // Azure Blue
             labelText = 'AZURE BLOB';
+        } else if (cloudKey === 'own') {
+            strokeColor = '#a855f7'; // Purple
+            labelText = 'LOCAL / NAS';
         }
 
         cloudNode.setAttribute('stroke', strokeColor);
@@ -223,10 +243,20 @@
         // Network Egress Saved = avoided GB * cloud egress rate per GB
         const egressSavingsUSD = avoidedGB * gpuCount * cloud.egressRate;
         
-        // Storage Capacity Rent Saved = avoided GB * standard storage monthly rate
-        const storageSavingsUSD = avoidedGB * gpuCount * cloud.storageRate;
+        // Storage Capacity Rent Saved = avoided GB * standard storage monthly rate, scaled down to cost per hour of active training
+        const monthlyStorageSavingsUSD = avoidedGB * gpuCount * cloud.storageRate;
+        const hourlyStorageSavingsUSD = monthlyStorageSavingsUSD / 720.0;
+        const storageSavingsUSD = hourlyStorageSavingsUSD * SIMULATED_HOURS_PER_STEP;
 
         totalROIdollars += (computeSavingsUSD + egressSavingsUSD + storageSavingsUSD);
+
+        // Increment simulated time
+        totalSimulatedHours += SIMULATED_HOURS_PER_STEP;
+        const days = Math.floor(totalSimulatedHours / 24);
+        const hours = Math.round(totalSimulatedHours % 24);
+        if (mSimTime) {
+            mSimTime.textContent = `${days}d ${hours}h`;
+        }
 
         // Update dashboard values
         mThroughput.textContent = currentNioSpeed.toFixed(1);
@@ -235,7 +265,7 @@
         mDedupe.textContent = overallDedupe.toFixed(1);
         
         // Buffer memory displays
-        const vramBuffer = Math.min(modelSize * 1024 * 0.05, hw.name.includes('5080') || hw.name.includes('4090') ? 512 : 2048);
+        const vramBuffer = Math.min(modelSize * 1024 * 0.05, hw.name.includes('5080') || hw.name.includes('4090') || hw.name.includes('5090') ? 512 : 2048);
         mVram.textContent = Math.round(vramBuffer);
 
         mEgress.textContent = totalEgressSavedGB.toFixed(1);
@@ -288,9 +318,13 @@
 
     function logToTerminal(step, hw, cloud, gpus, size, avoided, speed) {
         const hwid = generateHWID(hw.name);
+        const days = Math.floor(totalSimulatedHours / 24);
+        const hours = Math.round(totalSimulatedHours % 24);
+        const timeStr = `${days}d ${hours}h`;
         
         let lines = [];
         if (step === 1) {
+            lines.push(`<span class="terminal-label yellow">[SimTime]</span> Simulated Training Started (T+0h | 4,800x Acceleration)`);
             lines.push(`<span class="terminal-label blue">[Kernel]</span> Hardware verified: <span class="white">${hw.name}</span> (${gpus}x GPUs) | HWID: <span class="cyan">${hwid}</span>`);
             lines.push(`<span class="terminal-label blue">[NeuralIO]</span> Intercepting DeepSpeed ZeRO-3 collective communication bridge`);
             lines.push(`<span class="terminal-label blue">[NeuralIO]</span> Patched Hugging Face Accelerator.save_state() successfully`);
@@ -299,9 +333,14 @@
             lines.push(`<span class="terminal-label green">[✓]</span> Baseline safe: Wrote ${size.toFixed(1)} GB to cloud in ${(size / speed).toFixed(2)}s | Effective: <span class="white">${speed.toFixed(1)} GB/s</span>`);
         } else {
             const ratio = step === 2 ? '10.2x' : (9.0 + Math.random() * 2.8).toFixed(1) + 'x';
+            lines.push(`<span class="terminal-label yellow">[SimTime]</span> Advancing training clock: +4 hours (Total: ${timeStr} elapsed)`);
             lines.push(`<span class="terminal-label gray">[Save]</span> Step ${step}: fine-tuning model state...`);
             lines.push(`<span class="terminal-label blue">[NeuralIO]</span> CDC Deduplication Hit: ${ratio} duplicate chunk redundancy bypassed`);
-            lines.push(`<span class="terminal-label blue">[Network]</span> Egress Evasion: Skipped uploading ${avoided.toFixed(1)} GB of redundant layers`);
+            if (cloud.egressRate > 0) {
+                lines.push(`<span class="terminal-label blue">[Network]</span> Egress Evasion: Skipped uploading ${avoided.toFixed(1)} GB of redundant layers`);
+            } else {
+                lines.push(`<span class="terminal-label blue">[Network]</span> Local storage/NAS write bypassed for duplicate layers`);
+            }
             lines.push(`<span class="terminal-label green">[✓]</span> Saved Step ${step} in ${((size - avoided) / speed).toFixed(2)}s | 0 bytes written to NVMe SSDs`);
         }
 
