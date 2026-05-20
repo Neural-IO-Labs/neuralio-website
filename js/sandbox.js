@@ -223,10 +223,10 @@
         const writtenGB = modelSize / dedupRatio;
         const avoidedGB = modelSize - writtenGB;
 
-        // Multiply by checkpoints per step and cluster size
-        totalLogicalGB += modelSize * gpuCount * checkpointsPerStep;
-        totalActualGB += writtenGB * gpuCount * checkpointsPerStep;
-        totalEgressSavedGB += avoidedGB * gpuCount * checkpointsPerStep;
+        // Multiply by checkpoints per step (cluster-wide parallel sharding size totals modelSize)
+        totalLogicalGB += modelSize * checkpointsPerStep;
+        totalActualGB += writtenGB * checkpointsPerStep;
+        totalEgressSavedGB += avoidedGB * checkpointsPerStep;
 
         // 2. Telemetry and I/O speed details (realistic fluctuations)
         const nioBaseSpeed = hw.nioSpeed;
@@ -254,11 +254,11 @@
         // Compute Saved = saved seconds * cluster rental rate per second
         const computeSavingsUSD = (secondsSaved / 3600.0) * hw.rate * gpuCount;
         
-        // Network Egress Saved = avoided GB * cloud egress rate per GB
-        const egressSavingsUSD = avoidedGB * gpuCount * checkpointsPerStep * cloud.egressRate;
+        // Network Egress Saved = avoided GB * cloud egress rate per GB (cluster-wide parallel sharding)
+        const egressSavingsUSD = avoidedGB * checkpointsPerStep * cloud.egressRate;
         
         // Storage Capacity Rent Saved = avoided GB * standard storage monthly rate, scaled down to cost per hour of active training
-        const monthlyStorageSavingsUSD = avoidedGB * gpuCount * checkpointsPerStep * cloud.storageRate;
+        const monthlyStorageSavingsUSD = avoidedGB * checkpointsPerStep * cloud.storageRate;
         const hourlyStorageSavingsUSD = monthlyStorageSavingsUSD / 720.0;
         const storageSavingsUSD = hourlyStorageSavingsUSD * SIMULATED_HOURS_PER_STEP;
 
