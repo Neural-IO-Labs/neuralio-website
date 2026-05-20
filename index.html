@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Neural:IO — GPU-accelerated checkpointing for AI training. 5.2+ GB/s physical Gen4 write speed scaling to 16.0+ GB/s memory ingestion and up to 160 GB/s effective throughput with 10x+ deduplication. Native support for NVIDIA (A100–B200), AMD MI300X, Windows & Linux.">
+        content="Neural:IO — GPU-accelerated checkpointing for AI training. 5.2+ GB/s physical write speed, scaling to 16.0+ GB/s with RAID-0 / Gen5 arrays, and up to 160 GB/s logical/effective throughput via 10x+ deduplication. Native support for NVIDIA & AMD.">
     <meta name="keywords"
         content="AI infrastructure, GPU checkpointing, H100, Blackwell, MI300X, ROCm, AMD, machine learning, deep learning, PyTorch, checkpoint deduplication, Windows GPU">
     <meta name="author" content="Neural:IO Labs">
@@ -187,7 +187,7 @@
         </h1>
 
         <p class="hero-subtitle">
-            The async I/O engine that eliminates GPU idle time during checkpointing. <strong>5.2+ GB/s physical write speed</strong> (verified on standard PCIe Gen4 SSDs without <code>io_uring</code>) scaling to <strong>16.0+ GB/s memory ingestion</strong> and <strong>up to 160 GB/s effective bandwidth</strong> via 10x+ Content-Defined Deduplication. Bit-perfect integrity. Native low-level binaries for Linux & Windows.
+            The async I/O engine that eliminates GPU idle time during checkpointing. <strong>5.2+ GB/s physical write speed</strong> (verified on standard PCIe Gen4 SSDs without <code>io_uring</code>) scaling to <strong>16.0+ GB/s physical drive speed</strong> (via RAID-0 or PCIe Gen5/6 arrays) and <strong>up to 160 GB/s logical/effective bandwidth</strong> powered by 10x+ Content-Defined Deduplication. Bit-perfect integrity. Native low-level binaries for Linux & Windows.
         </p>
 
         <div class="hero-actions">
@@ -212,11 +212,11 @@
                     </svg>
                 </div>
                 <div class="metric-value" style="font-size: 2.2rem; display: flex; flex-direction: column; gap: 0.25rem; line-height: 1.2; font-family: var(--font-sans); color: #fff;">
-                    <div style="font-weight: 700;">5.2+ <span style="font-size: 1.2rem; font-weight: 500; color: var(--color-cyan);">GB/s Physical Write</span></div>
-                    <div style="font-size: 1.3rem; color: #a3a3a3; font-weight: 400; font-family: var(--font-mono);">16.0+ GB/s Ingestion Rate</div>
+                    <div style="font-weight: 700;">5.2+ <span style="font-size: 1.2rem; font-weight: 500; color: var(--color-cyan);">GB/s Single SSD</span></div>
+                    <div style="font-size: 1.3rem; color: #a3a3a3; font-weight: 400; font-family: var(--font-mono);">16.0+ GB/s RAID-0 / Gen5</div>
                 </div>
                 <p class="metric-description" style="margin-top: 1rem;">
-                    <strong>5.2+ GB/s physical write speed</strong> verified on PCIe Gen4 SSDs without kernel bypass, scaling to <strong>16.0+ GB/s memory ingestion</strong> via zero-copy UVA registers, and <strong>up to 160 GB/s effective bandwidth</strong> via 10x+ Content-Defined Deduplication.
+                    <strong>5.2+ GB/s physical write speed</strong> verified on single PCIe Gen4 SSDs, scaling to <strong>16.0+ GB/s physical throughput</strong> using 4x NVMe RAID-0 or PCIe Gen5. Under iterative training, 10x+ Content-Defined Deduplication (FastCDC) yields <strong>up to 160 GB/s logical/effective bandwidth</strong> by writing only modified network/layer weights.
                 </p>
             </div>
 
