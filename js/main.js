@@ -152,10 +152,9 @@ function initSmoothScroll() {
  * Scroll-triggered Animations
  */
 function initAnimations() {
-    // Intersection Observer for fade-in animations
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -167,9 +166,31 @@ function initAnimations() {
         });
     }, observerOptions);
 
-    // Observe elements with animate class
-    document.querySelectorAll('.animate-on-scroll').forEach(el => {
-        observer.observe(el);
+    // Observe legacy animate-on-scroll elements
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // Observe new .reveal elements
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Auto-tag major section cards for reveal (staggered)
+    const autoRevealSelectors = [
+        '.metric-card',
+        '.pricing-card',
+        '.technology-container > *',
+        '#sandbox-demo h2',
+        '#sandbox-demo p',
+        '#dashboard h2',
+        '#dashboard p',
+    ];
+    autoRevealSelectors.forEach((sel, sIdx) => {
+        document.querySelectorAll(sel).forEach((el, i) => {
+            if (!el.classList.contains('reveal')) {
+                el.classList.add('reveal');
+                const delayClass = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'][Math.min(i, 3)];
+                if (delayClass) el.classList.add(delayClass);
+            }
+            observer.observe(el);
+        });
     });
 
     // Trigger terminal animation when visible
@@ -187,6 +208,7 @@ function initAnimations() {
         terminalObserver.observe(terminal);
     }
 }
+
 
 /**
  * Utility: Debounce function

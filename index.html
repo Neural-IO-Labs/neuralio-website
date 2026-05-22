@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Neural:IO — GPU-accelerated checkpointing for AI training. 5.2+ GB/s physical write speed, scaling to 16.0+ GB/s with RAID-0 / Gen5 arrays, and up to 160 GB/s logical/effective throughput via 10x+ deduplication. Native support for NVIDIA & AMD.">
+        content="Neural:IO eliminates GPU idle time during PyTorch checkpointing. torch.save() returns in &lt;100ms. Async background I/O + 10x+ deduplication saves you GPU-hours and 90% of cloud storage costs. NVIDIA &amp; AMD native.">
     <meta name="keywords"
-        content="AI infrastructure, GPU checkpointing, H100, Blackwell, MI300X, ROCm, AMD, machine learning, deep learning, PyTorch, checkpoint deduplication, Windows GPU">
+        content="AI checkpointing, GPU idle time, PyTorch async checkpoint, H100 training, torch.save async, checkpoint deduplication, FSDP checkpointing, DeepSpeed checkpoint, MI300X, Blackwell">
     <meta name="author" content="Neural:IO Labs">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Neural:IO Labs | The I/O Engine for AI">
+    <meta property="og:title" content="Neural:IO Labs | Stop Paying for Idle H100s">
     <meta property="og:description"
-        content="GPU-accelerated checkpointing with 5.2+ GB/s physical Gen4 write speed, 16.0+ GB/s memory ingestion, and 10x+ deduplication. NVIDIA & AMD native. Windows & Linux.">
+        content="Every torch.save() blocks your training loop. Neural:IO hands the write to a background C++ engine in &lt;100ms, then deduplicates 90%+ of the data. Your GPU never waits. NVIDIA &amp; AMD native.">
     <meta property="og:image" content="assets/og-image.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Neural:IO Labs | The I/O Engine for AI">
+    <meta name="twitter:title" content="Neural:IO Labs | Stop Paying for Idle H100s">
     <meta name="twitter:description"
-        content="GPU-accelerated checkpointing with 5.2+ GB/s physical Gen4 write speed, 16.0+ GB/s memory ingestion, and 10x+ deduplication. NVIDIA & AMD native. Zero training overhead.">
+        content="torch.save() is blocking your training loop. Neural:IO returns in &lt;100ms while writing asynchronously in the background. 10x+ deduplication. NVIDIA &amp; AMD native.">
 
-    <title>Neural:IO Labs | The I/O Engine for AI</title>
+    <title>Neural:IO Labs | Stop Paying for Idle H100s</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/logo.png">
@@ -156,8 +156,8 @@
             </a>
 
             <div class="nav-links" id="navLinks">
-                <a href="#impact">Lab Results</a>
-                <a href="#technology">Architecture</a>
+                <a href="#impact">The Problem</a>
+                <a href="#technology">How It Works</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#contact">Contact</a>
             </div>
@@ -175,99 +175,97 @@
     </nav>
 
     <!-- Hero Section -->
-    <main class="hero">
+    <main class="hero">        
         <div class="hero-badge">
             <span class="hero-badge-dot"></span>
-            NVIDIA & AMD — NATIVE DUAL-PLATFORM SUPPORT
+            FOR PYTORCH · DEEPSPEED · FSDP — NVIDIA &amp; AMD NATIVE
         </div>
 
         <h1 class="hero-title">
-            Checkpointing That<br>
-            <span class="text-gradient glow-text">Doesn't Stop Training.</span>
+            Your H100 is idle<br>
+            <span class="text-gradient glow-text">every time you checkpoint.</span>
         </h1>
 
         <p class="hero-subtitle">
-            The async I/O engine that eliminates GPU idle time during checkpointing. <strong>5.2+ GB/s physical write speed</strong> (verified on standard PCIe Gen4 SSDs without <code>io_uring</code>) scaling to <strong>16.0+ GB/s physical drive speed</strong> (via RAID-0 or PCIe Gen5/6 arrays) and <strong>up to 160 GB/s logical/effective bandwidth</strong> powered by 10x+ Content-Defined Deduplication. Bit-perfect integrity. Native low-level binaries for Linux & Windows.
+            Every <code>torch.save()</code> call blocks your entire training loop — GPUs wait, grad buffers stall, money burns.
+            <strong>Neural:IO makes checkpointing fully asynchronous.</strong> Your training loop returns instantly, and the write
+            happens in the background while your next batch is already running.
+            One import. No code changes.
         </p>
 
         <div class="hero-actions">
             <button class="btn-primary" onclick="openContactModal()" data-track="hero-cta">
-                Claim Pilot Access
+                Stop Wasting GPU Time
             </button>
             <button class="btn-secondary"
                 onclick="document.getElementById('technology').scrollIntoView({behavior: 'smooth'})">
-                Verified Architecture
+                See How It Works
             </button>
         </div>
 
         <!-- Metrics Grid -->
         <section id="impact" class="metrics">
-            <!-- Metric 1: Throughput -->
+            <!-- Metric 1: The real cost -->
             <div class="metric-card">
                 <div class="metric-header">
-                    <span class="metric-label">Tiered Performance Spec</span>
-                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span class="metric-label">The Hidden Cost</span>
+                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:#ef4444;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="metric-value" style="font-size: 2.2rem; display: flex; flex-direction: column; gap: 0.25rem; line-height: 1.2; font-family: var(--font-sans); color: #fff;">
-                    <div style="font-weight: 700;">5.2+ <span style="font-size: 1.2rem; font-weight: 500; color: var(--color-cyan);">GB/s Single SSD</span></div>
-                    <div style="font-size: 1.3rem; color: #a3a3a3; font-weight: 400; font-family: var(--font-mono);">16.0+ GB/s RAID-0 / Gen5</div>
+                <div class="metric-value" style="font-size:2.2rem; line-height:1.15; color:#fff; font-family:var(--font-sans);">
+                    <div style="font-weight:700;">~30 min <span style="font-size:1.1rem; font-weight:500; color:#ef4444;">GPU idle / day</span></div>
+                    <div style="font-size:1.1rem; color:#a3a3a3; font-weight:400; font-family:var(--font-mono); margin-top:0.3rem;">on a standard LLaMA-3 70B run</div>
                 </div>
-                <p class="metric-description" style="margin-top: 1rem;">
-                    <strong>5.2+ GB/s physical write speed</strong> verified on single PCIe Gen4 SSDs, scaling to <strong>16.0+ GB/s physical throughput</strong> using 4x NVMe RAID-0 or PCIe Gen5. Under iterative training, 10x+ Content-Defined Deduplication (FastCDC) yields <strong>up to 160 GB/s logical/effective bandwidth</strong> by writing only modified network/layer weights.
+                <p class="metric-description" style="margin-top:1rem;">
+                    A standard 70B training run checkpoints every 30 minutes. Each <code>torch.save()</code> blocks the loop for <strong>60–180 seconds</strong> while the GPU waits for disk. At $3.50/hr per H100, that's <strong>$25–$75 per day, per node</strong> — just sitting idle.
+                    Neural:IO returns control to your training loop in <strong>&lt;100ms</strong>.
                 </p>
             </div>
 
-            <!-- Metric 2: Deduplication -->
+            <!-- Metric 2: The fix -->
             <div class="metric-card">
                 <div class="metric-header">
-                    <span class="metric-label">Efficiency & Integrity</span>
-                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #22c55e;">
+                    <span class="metric-label">How Neural:IO Fixes It</span>
+                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:var(--color-cyan);">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="metric-value">10x+ <span>Deduplication</span></div>
+                <div class="metric-value">0-copy <span>Async Stream</span></div>
                 <p class="metric-description">
-                    <strong>Bit-Perfect Accuracy:</strong> Atomic commitment guarantees 100% restoration. <br>
-                    <strong>10x+ Ratio:</strong> Validated on LLaMA 8B sharded checkpoints and LoRA workloads.
+                    Neural:IO intercepts <code>torch.save()</code> and hands the write off to a background C++ engine. Your training loop doesn't wait.
+                    The engine also uses <strong>Content-Defined Deduplication (FastCDC)</strong> — between checkpoints, typically only 5–15% of weights actually change. Neural:IO writes only those changed blocks, cutting I/O volume by <strong>10x+</strong>.
                 </p>
+                <div style="margin-top:1.25rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.07); font-size:0.8rem; font-family:var(--font-mono); color:var(--color-text-dimmed);">
+                    <div style="margin-bottom:0.35rem;"><span style="color:#22c55e;">✓</span>&nbsp; One import. torch.save() is automatically patched.</div>
+                    <div style="margin-bottom:0.35rem;"><span style="color:#22c55e;">✓</span>&nbsp; No model code changes required.</div>
+                    <div><span style="color:#22c55e;">✓</span>&nbsp; Works with DDP, FSDP, DeepSpeed ZeRO-3, HF Accelerate.</div>
+                </div>
             </div>
 
-            <!-- Metric 3: Platform Support -->
+            <!-- Metric 3: The second saving -->
             <div class="metric-card">
                 <div class="metric-header">
-                    <span class="metric-label">Enterprise Ready & Hardware Native</span>
-                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        style="color: #22c55e;">
+                    <span class="metric-label">Bonus: Storage &amp; Egress Savings</span>
+                    <svg class="metric-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:#22c55e;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                     </svg>
                 </div>
-                <div class="metric-value" style="font-size: 1.5rem; margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <span>NVIDIA + AMD</span>
-                    <span style="color: #6b7280; font-size: 1rem; align-self: flex-end; padding-bottom: 0.2rem;">Python 3.10–3.12 Support</span>
-                </div>
-                <div class="metric-description" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                    <div>
-                        <strong>NVIDIA:</strong> Native support for Hopper, Blackwell, Ampere, Turing. Fat binary: <span style="font-family:'JetBrains Mono',monospace; color:#06b6d4;">SM75→SM100+PTX</span><br>
-                        <strong>AMD:</strong> Native ROCm 6.x for MI300X (gfx942) and MI250X (gfx90a).
-                    </div>
-                    <div>
-                        <strong>Distributed:</strong> DDP and FSDP natively supported. Slurm compatible.<br>
-                        <strong>Backends:</strong> Native io_uring (Linux) and IOCP (Windows). Fully offline operation for enterprise.
-                    </div>
-                </div>
-                <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.25rem;">
-                    <span style="font-size: 0.75rem; font-family: var(--font-mono); color: var(--color-text-dimmed); text-transform: uppercase; display: block; margin-bottom: 0.75rem; letter-spacing: 0.05em;">Production-Certified Features:</span>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.8rem;">
-                        <span style="background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.2); color: #06b6d4; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500; font-family: var(--font-mono);">DeepSpeed ZeRO-3 Collective Bridge</span>
-                        <span style="background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); color: #22c55e; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500; font-family: var(--font-mono);">Hugging Face Accelerate Native Wrapper</span>
-                        <span style="background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); color: #a855f7; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500; font-family: var(--font-mono);">Multi-Cloud Direct Streaming</span>
-                        <span style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #ef4444; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500; font-family: var(--font-mono);">Sub-second Rollbacks</span>
-                        <span style="background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.2); color: #eab308; padding: 0.25rem 0.6rem; border-radius: 4px; font-weight: 500; font-family: var(--font-mono);">Zero Local NVMe Wear</span>
+                <div class="metric-value">90% <span>Less Written</span></div>
+                <p class="metric-description">
+                    Because Neural:IO skips unchanged weight blocks, a 140 GB LLaMA-3 70B checkpoint typically writes <strong>only 10–20 GB of new data</strong>. If you're on AWS or GCP, that's a 90% cut in S3/GCS egress and storage costs for every single checkpoint.
+                </p>
+                <div style="margin-top:1.25rem; border-top:1px solid rgba(255,255,255,0.07); padding-top:1rem;">
+                    <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--color-text-dimmed); text-transform:uppercase; display:block; margin-bottom:0.75rem;">Supported Frameworks:</span>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; font-size:0.8rem;">
+                        <span style="background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.2); color:#06b6d4; padding:0.25rem 0.6rem; border-radius:4px; font-weight:500; font-family:var(--font-mono);">DeepSpeed ZeRO-3</span>
+                        <span style="background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); color:#22c55e; padding:0.25rem 0.6rem; border-radius:4px; font-weight:500; font-family:var(--font-mono);">HF Accelerate</span>
+                        <span style="background:rgba(168,85,247,0.1); border:1px solid rgba(168,85,247,0.2); color:#a855f7; padding:0.25rem 0.6rem; border-radius:4px; font-weight:500; font-family:var(--font-mono);">PyTorch DCP</span>
+                        <span style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:#ef4444; padding:0.25rem 0.6rem; border-radius:4px; font-weight:500; font-family:var(--font-mono);">DDP / FSDP</span>
+                        <span style="background:rgba(251,146,60,0.1); border:1px solid rgba(251,146,60,0.25); color:#fb923c; padding:0.25rem 0.6rem; border-radius:4px; font-weight:500; font-family:var(--font-mono);">Safetensors</span>
                     </div>
                 </div>
             </div>
@@ -279,9 +277,8 @@
         <div class="technology-container">
             <div class="technology-header">
                 <div>
-                    <h2 class="technology-title">Compiled Native Architecture</h2>
-                    <p class="technology-subtitle">Pre-compiled fat binaries for NVIDIA CUDA and AMD ROCm. No source
-                        code distribution — native GPU performance with full IP protection.</p>
+                    <h2 class="technology-title">One import. Zero training changes.</h2>
+                    <p class="technology-subtitle">Neural:IO patches <code style="font-family:var(--font-mono); color:var(--color-cyan); font-size:0.9em;">torch.save()</code> at the Python level. Your existing training scripts work unchanged. The write is handed off to a native C++ async engine that runs in the background while your GPU is already computing the next batch.</p>
                 </div>
                 <div class="technology-log">
                     <span class="technology-log-dot"></span>
@@ -303,24 +300,22 @@
                 <div class="terminal-body">
                     <div class="terminal-line">
                         <span class="terminal-prompt">user@lab:~$</span>
-                        <span class="terminal-command">pip install neuralio-2.2.5-cp312-linux_x86_64.whl</span>
+                        <span class="terminal-command">python train.py  <span style="color:#6b7280"># standard PyTorch training script</span></span>
                     </div>
 
                     <div class="terminal-line">
                         <span class="terminal-label blue">[Neural:IO]</span>
-                        <span class="terminal-value">License: <span class="green">ENTERPRISE</span> | Platform: <span
-                                class="white">CUDA + ROCm</span></span>
+                        <span class="terminal-value">Patched <span class="cyan">torch.save()</span> — async engine active | License: <span class="green">ENTERPRISE</span></span>
                     </div>
 
                     <div class="terminal-line">
-                        <span class="terminal-label blue">[Kernel]</span>
-                        <span class="terminal-value">NVIDIA FatBinary <span class="white">(SM75→SM100+PTX)</span> | AMD
-                            <span class="white">(gfx942)</span></span>
+                        <span class="terminal-label blue">[Neural:IO]</span>
+                        <span class="terminal-value">Platform: <span class="white">CUDA SM75→SM100+PTX</span> | Dedup vault: <span class="cyan">initialized</span></span>
                     </div>
 
                     <div class="terminal-line" style="margin-top: 1rem;">
-                        <span class="terminal-label gray">[Save]</span>
-                        <span class="terminal-value">File: <span class="cyan">ckpt_step_4200.pt</span> (4.0 GB)</span>
+                        <span class="terminal-label gray">[Step 4200]</span>
+                        <span class="terminal-value">torch.save(<span class="cyan">ckpt_4200.pt</span>, 140 GB) called...</span>
                     </div>
 
                     <div class="terminal-progress">
@@ -328,14 +323,13 @@
                     </div>
 
                     <div class="terminal-line">
-                        <span class="terminal-label green">[SESSION SUMMARY]</span>
-                        <span class="terminal-value">Physical: <span class="white">5.2 GB/s</span> | Effective: <span class="green">52.0 GB/s (10.00x)</span></span>
+                        <span class="terminal-label green">[✓ 87ms]</span>
+                        <span class="terminal-value">Returned to training loop. Write running in background. <span class="green">GPU never stalled.</span></span>
                     </div>
 
                     <div class="terminal-line">
-                        <span class="terminal-label green">[✓]</span>
-                        <span class="terminal-value">Incremental checkpoint — <span class="green">90% I/O
-                                eliminated</span></span>
+                        <span class="terminal-label green">[Dedup]</span>
+                        <span class="terminal-value">11.2x ratio — wrote <span class="white">12.5 GB</span> instead of 140 GB. <span class="green">$4.30 egress saved this checkpoint.</span></span>
                     </div>
                 </div>
             </div>
@@ -346,13 +340,13 @@
     <section id="sandbox-demo" style="padding: 6rem 1.5rem; text-align: center; max-width: 1280px; margin: 0 auto;">
         <div class="hero-badge" style="margin-bottom: 1.5rem;">
             <span class="hero-badge-dot"></span>
-            NEURAL:IO INTERACTIVE HARDWARE SANDBOX & ROI SIMULATOR
+            CALCULATE YOUR EXACT SAVINGS — INTERACTIVE ROI SIMULATOR
         </div>
         <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: -0.02em;">
-            Experience The Speed <span class="text-gradient glow-text">Right Here.</span>
+            How much are you <span class="text-gradient glow-text">spending on idle GPUs?</span>
         </h2>
         <p style="color: #9ca3af; margin-bottom: 4rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7;">
-            Configure your GPU hardware, model scale, and cloud target. Launch the real-time simulation to experience Neural:IO's active collective bridges, dynamic Content-Defined Deduplication, zero NVMe SSD wear pipelines, and multi-cloud direct streaming.
+            Pick your GPU, model size, and cloud provider. The simulator calculates the real dollar cost of checkpoint stall time on your hardware — and shows you exactly what Neural:IO recovers.
         </p>
 
         <!-- Sandbox Layout Grid -->
@@ -581,8 +575,18 @@
         <div style="padding: 2.5rem; border-radius: 1.5rem; background: linear-gradient(135deg, rgba(0, 242, 255, 0.05) 0%, rgba(5,5,7,0.8) 100%); border: 1px solid rgba(0, 242, 255, 0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.5); text-align: center; max-width: 900px; margin: 0 auto;">
             <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem;">Evaluate the Neural:IO Public Demo</h3>
             <p style="color: #9ca3af; font-size: 0.95rem; margin-bottom: 1.5rem; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-                Experience the speeds on your own actual hardware. You can check out the source code of our public demo harness on GitHub, or download the pre-packaged offline evaluation suite directly.
+                Experience the speeds on your own actual hardware. Check out our public demo harness on GitHub or download the pre-packaged offline evaluation suite directly.
             </p>
+
+            <!-- Ecosystem compatibility strip -->
+            <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; margin-bottom: 1.75rem;">
+                <span style="font-size: 0.72rem; font-family: var(--font-mono); background: rgba(251,146,60,0.08); border: 1px solid rgba(251,146,60,0.22); color: #fb923c; padding: 0.2rem 0.65rem; border-radius: 4px;">🤗 Safetensors ↔ NIO</span>
+                <span style="font-size: 0.72rem; font-family: var(--font-mono); background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.22); color: #22c55e; padding: 0.2rem 0.65rem; border-radius: 4px;">PyTorch DCP</span>
+                <span style="font-size: 0.72rem; font-family: var(--font-mono); background: rgba(6,182,212,0.08); border: 1px solid rgba(6,182,212,0.22); color: #06b6d4; padding: 0.2rem 0.65rem; border-radius: 4px;">DeepSpeed ZeRO-3</span>
+                <span style="font-size: 0.72rem; font-family: var(--font-mono); background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.22); color: #a855f7; padding: 0.2rem 0.65rem; border-radius: 4px;">HF Accelerate</span>
+                <span style="font-size: 0.72rem; font-family: var(--font-mono); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); color: #9ca3af; padding: 0.2rem 0.65rem; border-radius: 4px;">pip install neuralio</span>
+            </div>
+
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; align-items: center; margin-bottom: 1rem;">
                 <a href="https://github.com/Neural-IO-Labs/NeuralIO-demo" target="_blank" class="btn-secondary" style="width: auto; max-width: none; margin: 0; padding: 0.85rem 2rem; display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid rgba(255,255,255,0.15);">
                     <svg style="width: 18px; height: 18px;" fill="currentColor" viewBox="0 0 24 24">
@@ -599,12 +603,12 @@
                 </a>
             </div>
             <div style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--color-text-dimmed); display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-                <span>Demo Suite Size: ~12 MB</span>
+                <span>Demo Suite: ~12 MB</span>
                 <span>License: Pre-loaded Trial</span>
-                <span>Target OS: Linux & Windows</span>
+                <span>Target OS: Linux &amp; Windows</span>
             </div>
             <p style="margin-top: 1.25rem; font-size: 0.75rem; color: var(--color-text-dimmed);">
-                Note: The evaluation suite contains stripped, secure pre-compiled binaries for local performance testing. No source code for core proprietary C++ logic is included in the public demo.
+                The evaluation suite contains stripped, secure pre-compiled binaries. No core C++ source is included in the public demo.
             </p>
         </div>
     </section>
@@ -628,26 +632,25 @@
     <!-- Pricing Section -->
     <section id="pricing" class="pricing">
         <div class="pricing-header">
-            <h2 class="pricing-title">Join the Private Pilot</h2>
-            <p class="pricing-subtitle">Currently accepting partners for pilot programs on NVIDIA H100/B200 and AMD
-                MI300X infrastructure. Windows & Linux.</p>
+            <h2 class="pricing-title">Stop paying for idle GPUs</h2>
+            <p class="pricing-subtitle">Neural:IO pays for itself within days. We're currently accepting pilot partners on H100, B200, and MI300X clusters — reach out to get started.</p>
         </div>
 
         <div class="pricing-grid">
-            <!-- 14-day Demo Tier -->
+            <!-- 24h Demo Tier -->
             <div class="pricing-card">
-                <span class="pricing-badge">Evaluate</span>
-                <h3 class="pricing-name">14-day Demo Tier</h3>
-                <p class="pricing-description">For rapid PoCs & Local Hardware Validation</p>
+                <span class="pricing-badge">Try It</span>
+                <h3 class="pricing-name">Free Trial</h3>
+                <p class="pricing-description">Verify the zero-stall claim on your own hardware</p>
                 <div class="pricing-price">$0</div>
                 <ul class="pricing-features">
-                    <li>14 Day Token Lifespan</li>
-                    <li>Full Dashboard Telemetry</li>
-                    <li>Fat Binary Architecture</li>
-                    <li>Best-effort support</li>
+                    <li>24-hour token, your own GPU</li>
+                    <li>Full async engine + deduplication</li>
+                    <li>Real-time stall-time comparison dashboard</li>
+                    <li>Community support</li>
                 </ul>
                 <button class="pricing-btn outline" onclick="openContactModal()" data-track="pricing-sandbox">
-                    Request Token
+                    Request Trial Token
                 </button>
             </div>
 
@@ -655,31 +658,31 @@
             <div class="pricing-card featured">
                 <span class="pricing-badge">Pilot Program</span>
                 <h3 class="pricing-name">Enterprise Pilot</h3>
-                <p class="pricing-description">For H100/B200 & MI300X Clusters</p>
+                <p class="pricing-description">For H100 / B200 / MI300X clusters at scale</p>
                 <div class="pricing-price">Node-based <span>(Pilot is Free)</span></div>
-                <p class="pricing-note">Direct access to labs engineering. Custom kernel tuning for your specific GPU
-                    topology and storage stack.</p>
+                <p class="pricing-note">Direct access to the Neural:IO engineering team. We instrument your cluster, measure your exact idle-GPU cost, and tune the engine to your storage stack.</p>
                 <ul class="pricing-features">
-                    <li>Unlimited Multi-Node Scaling</li>
-                    <li>NVIDIA + AMD Kernel Tuning</li>
-                    <li>Windows & Linux Binaries</li>
-                    <li>24h Priority Email Support</li>
+                    <li>Measured ROI report from your cluster</li>
+                    <li>Custom kernel tuning for your GPU topology</li>
+                    <li>DeepSpeed / FSDP / HF Accelerate integration</li>
+                    <li>24h priority engineering support</li>
                 </ul>
                 <button class="pricing-btn primary" onclick="openContactModal()" data-track="pricing-enterprise">
-                    Contact Labs
+                    Start the Pilot
                 </button>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" style="padding: 4rem 1.5rem; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Ready to Accelerate?</h2>
-        <p style="color: #9ca3af; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-            Get in touch for pilot access, partnership inquiries, or to schedule a technical demo.
+    <section id="contact" style="padding: 5rem 1.5rem; text-align: center;">
+        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">See your exact numbers.</h2>
+        <p style="color: #9ca3af; margin-bottom: 0.75rem; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+            Tell us your cluster size and training schedule. We'll send back a breakdown of how many GPU-hours you're losing to checkpointing today — and what Neural:IO would save.
         </p>
+        <p style="color: #6b7280; font-size: 0.85rem; margin-bottom: 2rem;">No pitch. Just the number.</p>
         <button class="btn-primary" onclick="openContactModal()" data-track="footer-cta" style="width: auto;">
-            Contact Labs
+            Get My Savings Estimate
         </button>
     </section>
 
