@@ -1,3 +1,4 @@
+(function () {
 /**
  * Neural:IO Labs - Website JavaScript
  * ====================================
@@ -93,18 +94,19 @@ function initModal() {
 }
 
 // Global functions for onclick handlers
-function openContactModal() {
+window.openContactModal = function () {
     modal.open();
-}
+};
 
-function closeContactModal() {
+window.closeContactModal = function () {
     modal.close();
-}
+};
 
 /**
  * Copy Email to Clipboard
  */
-function copyEmail() {
+let copyEmailTimeoutId = null;
+window.copyEmail = function () {
     const emailElement = document.getElementById('contactEmail');
     const feedback = document.getElementById('copyFeedback');
 
@@ -115,15 +117,19 @@ function copyEmail() {
             // Show feedback
             if (feedback) {
                 feedback.classList.add('visible');
-                setTimeout(() => {
+                if (copyEmailTimeoutId) {
+                    clearTimeout(copyEmailTimeoutId);
+                }
+                copyEmailTimeoutId = setTimeout(() => {
                     feedback.classList.remove('visible');
+                    copyEmailTimeoutId = null;
                 }, 2000);
             }
         }).catch(err => {
             console.error('Failed to copy:', err);
         });
     }
-}
+};
 
 /**
  * Smooth Scrolling
@@ -256,3 +262,4 @@ document.querySelectorAll('[data-track]').forEach(el => {
         trackEvent('CTA', 'click', trackData);
     });
 });
+})();

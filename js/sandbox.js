@@ -218,11 +218,17 @@
         // Trigger SVG flowing animations
         animateSVGPackets();
 
+        // Deterministic pseudo-random helper
+        const getDetRand = (offset) => {
+            const val = Math.sin(currentStep * 1.23 + modelSize * 4.56 + gpuCount * 7.89 + offset) * 10000;
+            return val - Math.floor(val);
+        };
+
         // 1. Calculate Deduplication metrics
         // Assume checkpoints are saved every 2 hours of training.
         // In a 4-hour step, we have 2 checkpoint save events.
         const checkpointsPerStep = 2;
-        const dedupRatio = currentStep === 1 ? 1.0 : (9.0 + Math.random() * 2.8); // 9x - 11.8x deduplication
+        const dedupRatio = currentStep === 1 ? 1.0 : (9.0 + getDetRand(1) * 2.8); // 9x - 11.8x deduplication
         const writtenGB = modelSize / dedupRatio;
         const avoidedGB = modelSize - writtenGB;
 
@@ -233,8 +239,8 @@
 
         // 2. Telemetry and I/O speed details (realistic fluctuations)
         const nioBaseSpeed = hw.nioSpeed;
-        const currentNioSpeed = nioBaseSpeed * (0.95 + Math.random() * 0.1); // +- 5% speed noise
-        const currentBaseSpeed = hw.baseSpeed * (0.93 + Math.random() * 0.1); 
+        const currentNioSpeed = nioBaseSpeed * (0.95 + getDetRand(2) * 0.1); // +- 5% speed noise
+        const currentBaseSpeed = hw.baseSpeed * (0.93 + getDetRand(3) * 0.1); 
 
         // 3. Compute time calculation
         // Distributed sharded size per rank
@@ -248,7 +254,7 @@
         const standardTimeSec = shardSize / standardWriteSpeed;
         
         // Neural:IO is fully asynchronous background streaming (blocked rank time < 100ms)
-        const nioTimeSec = 0.05 + (Math.random() * 0.08); 
+        const nioTimeSec = 0.05 + (getDetRand(4) * 0.08); 
         
         const secondsSaved = Math.max(0, standardTimeSec - nioTimeSec) * checkpointsPerStep;
         totalComputeSecondsSaved += secondsSaved;
@@ -339,6 +345,11 @@
         const hours = Math.round(totalSimulatedHours % 24);
         const timeStr = `${days}d ${hours}h`;
         
+        const getDetRand = (offset) => {
+            const val = Math.sin(step * 1.23 + size * 4.56 + gpus * 7.89 + offset) * 10000;
+            return val - Math.floor(val);
+        };
+
         let lines = [];
         if (step === 1) {
             lines.push(`<span class="terminal-label yellow">[SimTime]</span> Simulated Training Started (T+0h | 4,800x Acceleration)`);
@@ -349,7 +360,7 @@
             lines.push(`<span class="terminal-label gray">[Save]</span> Step ${step}: Writing baseline checkpoint (first run)...`);
             lines.push(`<span class="terminal-label green">[✓]</span> Baseline safe: Wrote ${size.toFixed(1)} GB to cloud in ${(size / speed).toFixed(2)}s | Effective: <span class="white">${speed.toFixed(1)} GB/s</span>`);
         } else {
-            const ratio = step === 2 ? '10.2x' : (9.0 + Math.random() * 2.8).toFixed(1) + 'x';
+            const ratio = step === 2 ? '10.2x' : (9.0 + getDetRand(1) * 2.8).toFixed(1) + 'x';
             lines.push(`<span class="terminal-label yellow">[SimTime]</span> Advancing training clock: +4 hours (Total: ${timeStr} elapsed)`);
             lines.push(`<span class="terminal-label gray">[Save]</span> Step ${step}: fine-tuning model state...`);
             lines.push(`<span class="terminal-label blue">[NeuralIO]</span> CDC Deduplication Hit: ${ratio} duplicate chunk redundancy bypassed`);
@@ -362,12 +373,14 @@
         }
 
         // Output lines to terminal UI
+        const frag = document.createDocumentFragment();
         lines.forEach(l => {
             const el = document.createElement('div');
             el.className = 'terminal-line';
             el.innerHTML = l;
-            terminalLog.appendChild(el);
+            frag.appendChild(el);
         });
+        terminalLog.appendChild(frag);
 
         // Autoscroll
         terminalLog.scrollTop = terminalLog.scrollHeight;
