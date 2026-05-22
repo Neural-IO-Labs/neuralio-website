@@ -207,7 +207,10 @@
         }
 
         cloudNode.setAttribute('stroke', strokeColor);
-        cloudGlow.style.background = strokeColor;
+        // Fix: svgCloudGlow is a <circle>, so we must set its fill attribute, not background.
+        // We also need to add opacity since the original fill had 0.08 alpha.
+        cloudGlow.setAttribute('fill', strokeColor);
+        cloudGlow.setAttribute('opacity', '0.08');
         cloudLabel.textContent = labelText;
     }
 
