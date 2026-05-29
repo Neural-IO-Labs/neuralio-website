@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
     initAnimations();
 });
 
+(function() {
+
+
 /**
  * Mobile Navigation
  */
@@ -94,11 +97,11 @@ function initModal() {
 }
 
 // Global functions for onclick handlers
-window.openContactModal = function () {
+window.openContactModal = function() {
     modal.open();
 };
 
-window.closeContactModal = function () {
+window.closeContactModal = function() {
     modal.close();
 };
 
@@ -106,7 +109,7 @@ window.closeContactModal = function () {
  * Copy Email to Clipboard
  */
 let copyEmailTimeoutId = null;
-window.copyEmail = function () {
+window.copyEmail = function() {
     const emailElement = document.getElementById('contactEmail');
     const feedback = document.getElementById('copyFeedback');
 
@@ -262,4 +265,5 @@ document.querySelectorAll('[data-track]').forEach(el => {
         trackEvent('CTA', 'click', trackData);
     });
 });
+
 })();
